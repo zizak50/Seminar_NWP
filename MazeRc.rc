@@ -1,0 +1,8 @@
+#pragma once
+#include "resource.h"
+
+STRINGTABLE
+BEGIN
+IDS_B1 "Custom"
+IDS_B2 "Move me!"
+END
