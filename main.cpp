@@ -2,6 +2,7 @@
 #include "resource1.h"
 #include <windows.h>
 #include <String.h>
+#include <iostream>
 
 class Button:public Window
 {
@@ -37,12 +38,16 @@ void MyWindow::OnCommand(int id)
 {
 	switch (id)
 	{
-		/*case IDC_START:
-			return 0;
-		case IDC_SETTING:
-			return 0;*/
+	case 001:
+			std::cout << "start";
+			break;
+	case IDC_SETTING:
+			std::cout << "setting";
+			break;
 	case IDC_QUIT:
+		std::cout << "quit";
 		PostQuitMessage(0);
+		break;
 	}
 }
 
