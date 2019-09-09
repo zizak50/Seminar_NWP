@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="nwpwin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\desktop\bitmap2.bmp">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\desktop\bitmap3.bmp">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Desktop\Icon.bmp">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="icon_zgI_icon.ico">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Desktop\icon_zgI_icon.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Heders">
+      <UniqueIdentifier>{7f951d5a-fb4e-4959-95dc-8cebe770633d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{00ac485c-9d50-4e58-9db2-7b143bdaff94}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource1.h">
+      <Filter>Heders</Filter>
+    </ClInclude>
+    <ClInclude Include="nwpwin.h">
+      <Filter>Heders</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

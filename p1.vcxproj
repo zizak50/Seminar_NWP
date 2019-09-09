@@ -132,8 +132,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nwpwin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="nwpwin.h" />
     <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
