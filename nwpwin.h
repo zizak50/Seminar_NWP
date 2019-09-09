@@ -44,10 +44,3 @@ protected:
 	virtual void OnCommand(int) { }
 	virtual void OnDestroy() { }
 };
-
-
-class Button : public Window
-{
-protected:
-	virtual tstring ClassName() { return tstring(_T("BUTTON")); }
-};

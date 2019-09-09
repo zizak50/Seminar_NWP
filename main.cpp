@@ -3,11 +3,13 @@
 #include <windows.h>
 #include <String.h>
 
+class Button:public Window
+{
+public:
+	std::string ClassName() { return "BUTTON"; }
+};
 
 class MyWindow : public Window {
-
-	Button start, setting, quit;
-	Window game;
 
 	static WNDPROC origEditWndProc;
 
@@ -16,25 +18,31 @@ public:
 protected:
 	int OnCreate(CREATESTRUCT* psc)
 	{
+		Button start, setting, quit;
 		char s[128];
+
 		LoadString(0, IDS_STRING101, s, sizeof s);
-		start.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, (int)(HMENU)IDC_BUTTON1, 150, 150, 200, 100);
+		start.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, IDC_START, 150, 150, 200, 100);
 
 		LoadString(0, IDS_STRING102, s, sizeof s);
-		setting.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, (int)(HMENU)IDC_BUTTON2, 450, 150, 200, 100);
+		setting.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, IDC_SETTING, 400, 150, 200, 100);
 
 		LoadString(0, IDS_STRING103, s, sizeof s);
-		quit.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, (int)(HMENU)IDC_BUTTON3, 575, 450, 200, 100);
-
+		quit.Create(*this, WS_CHILD | WS_VISIBLE | WS_BORDER, s, IDC_QUIT, 575, 500, 200, 50);
 
 		return 0;
 	}
 	void OnCommand(int id)
 	{
-		if (id == 1) {
-			MessageBox(NULL, "one", "NWP", MB_OK | MB_ICONWARNING);
+		switch (id)
+		{
+		/*case IDC_START:
+			return 0;
+		case IDC_SETTING:
+			return 0;*/
+		case IDC_QUIT:
+			printf("qwer");
 		}
-
 	}
 
 	void OnDestroy()

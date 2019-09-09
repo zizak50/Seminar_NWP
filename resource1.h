@@ -2,9 +2,9 @@
 // Microsoft Visual C++ generated include file.
 // Used by Resource.rc
 //
-#define IDC_BUTTON1	001
-#define IDC_BUTTON2                     002
-#define IDC_BUTTON3                     003
+#define IDC_START	001
+#define IDC_SETTING                     002
+#define IDC_QUIT                     003
 #define IDS_STRING101                   101
 #define IDS_STRING102                   102
 #define IDS_STRING103                   103
