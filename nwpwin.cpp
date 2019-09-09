@@ -76,6 +76,7 @@ LRESULT CALLBACK Window::Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	Window* pThis = reinterpret_cast<Window*>(::GetWindowLong(hwnd, 0));
 	switch (message)
 	{
+	//ovdje mi baca "pThis was nullptr" nakon sto pritisnem tipku
 	//case WM_COMMAND:		pThis->OnCommand(LOWORD(wParam));			return 0;
 	case WM_DESTROY:		pThis->OnDestroy();							return 0;
 
