@@ -22,7 +22,7 @@ bool Window::Register(const tstring& name) {
 
 	wc.lpfnWndProc = Proc;
 	wc.lpszClassName = name.c_str();
-	wc.cbClsExtra = sizeof(Window*);
+	wc.cbWndExtra = sizeof(Window*);
 
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -76,7 +76,7 @@ LRESULT CALLBACK Window::Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	Window* pThis = reinterpret_cast<Window*>(::GetWindowLong(hwnd, 0));
 	switch (message)
 	{
-	//case WM_COMMAND:		pThis->OnCommand(LOWORD(wParam));			return 0;
+	case WM_COMMAND:		pThis->OnCommand(LOWORD(wParam));			return 0;
 	case WM_DESTROY:		pThis->OnDestroy();							return 0;
 
 	}

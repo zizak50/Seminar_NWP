@@ -38,14 +38,13 @@ void MyWindow::OnCommand(int id)
 {
 	switch (id)
 	{
-	case 001:
-			std::cout << "start";
+	case IDC_START:
+		MessageBox(NULL, "start", NULL, MB_OK);
 			break;
 	case IDC_SETTING:
-			std::cout << "setting";
+		MessageBox(NULL, "settings", NULL, MB_OK);
 			break;
 	case IDC_QUIT:
-		std::cout << "quit";
 		PostQuitMessage(0);
 		break;
 	}
