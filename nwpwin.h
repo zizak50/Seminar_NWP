@@ -43,4 +43,5 @@ protected:
 	virtual int OnCreate(CREATESTRUCT*) { return 0; }
 	virtual void OnCommand(int) { }
 	virtual void OnDestroy() { }
+	virtual void OnPaint(HDC dc) {}
 };
