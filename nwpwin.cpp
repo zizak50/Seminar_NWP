@@ -84,6 +84,8 @@ LRESULT CALLBACK Window::Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		pThis->OnPaint(hdc);
 		EndPaint(hwnd, &ps);
 		return 0;*/
+	case WM_KEYUP:  pThis->OnKeyUp(wParam); return 0;
+	case WM_KEYDOWN: pThis->OnKeyDown(wParam); return 0;
 
 	}
 	return ::DefWindowProc(hwnd, message, wParam, lParam);

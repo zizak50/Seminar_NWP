@@ -44,4 +44,9 @@ protected:
 	virtual void OnCommand(int) { }
 	virtual void OnDestroy() { }
 	virtual void OnPaint(HDC dc) {}
+	virtual void OnKeyDown(int key) { }
+	virtual void OnKeyUp(int key) { }
+	virtual void OnKeyLeft(int key) {}
+	virtual void OnKeyRight(int key) {}
+
 };

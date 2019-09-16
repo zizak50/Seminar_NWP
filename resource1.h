@@ -9,7 +9,10 @@
 #define IDS_STRING102                   102
 #define IDS_STRING103                   103
 #define IDS_STRING104                   104
+#define IDS_STRING105                   105
+#define IDS_STRING106                   106
 #define IDI_ICON1                       107
+#define IDS_STRING107                   107
 #define IDD_DIALOG1                     109
 #define IDD_DIALOG2                     112
 #define IDC_LIST1                       1002
