@@ -26,7 +26,7 @@ bool Window::Register(const tstring& name) {
 
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	
 
 	return RegisterClass(&wc) != 0;
@@ -78,15 +78,14 @@ LRESULT CALLBACK Window::Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	{
 	case WM_COMMAND:		pThis->OnCommand(LOWORD(wParam));			return 0;
 	case WM_DESTROY:		pThis->OnDestroy();							return 0;
-	/*case WM_PAINT:
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hwnd, &ps);
-		pThis->OnPaint(hdc);
-		EndPaint(hwnd, &ps);
-		return 0;*/
 	case WM_KEYUP:  pThis->OnKeyUp(wParam); return 0;
 	case WM_KEYDOWN: pThis->OnKeyDown(wParam); return 0;
-
+	case WM_PAINT:
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+			pThis->OnPaint(hdc);
+			EndPaint(hwnd, &ps);
+			return 0;
 	}
 	return ::DefWindowProc(hwnd, message, wParam, lParam);
 }

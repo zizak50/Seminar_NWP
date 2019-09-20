@@ -21,6 +21,7 @@
 #define IDC_Apply                       1003
 #define IDCANCLE_SETT                   1004
 #define IDC_BUTTON1                     1005
+#define ID_EXIT 40007
 
 // Next default values for new objects
 // 
