@@ -2,24 +2,18 @@
 // Microsoft Visual C++ generated include file.
 // Used by Resource.rc
 //
-#define ID_MYSTATIC 01
+#define ID_MYSTATIC                     01
+#define ID_QUIT 02
+#define ID_NewGame 03
 #define IDS_STRING101                   101
 #define IDS_STRING102                   102
 #define IDS_STRING103                   103
 #define IDS_STRING104                   104
-#define IDS_STRING105                   105
-#define IDS_STRING106                   106
 #define IDI_ICON1                       107
-#define IDS_STRING107                   107
 #define IDD_DIALOG1                     109
-#define IDD_DIALOG2                     112
-#define IDC_LIST1                       1002
-#define IDC_CANCLE                      1003
-#define IDC_OK                          1003
-#define IDC_Apply                       1003
 #define IDCANCLE_SETT                   1004
 #define IDC_BUTTON1                     1005
-#define ID_EXIT 40007
+#define IDC_BUTTON2                     1006
 
 // Next default values for new objects
 // 
@@ -27,7 +21,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40010
-#define _APS_NEXT_CONTROL_VALUE         1006
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

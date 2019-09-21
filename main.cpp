@@ -3,7 +3,33 @@
 #include <windows.h>
 #include <string.h>
 #include <iostream>
-#include <algorithm>
+
+INT_PTR CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+	switch (Message)
+	{
+	case WM_INITDIALOG:
+
+		return TRUE;
+		break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case ID_QUIT:
+			EndDialog(hwnd, IDOK);
+			::PostQuitMessage(0);
+			break;
+		case ID_NewGame:
+
+			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
 
 class MyWindow : public Window {
 
@@ -18,8 +44,6 @@ protected:
 	void New_pos(int x,int y);
 	void Relese_Tile(POINT p);
 
-	void Update_Life();
-
 public:
 	COLORREF color_wall = RGB(0, 0, 0);
 	COLORREF color_path = RGB(0, 255, 0);
@@ -31,7 +55,7 @@ public:
 
 	POINT cur_position;
 
-	int life = 10;
+	int moves = 0;
 
 	// 0-path
 	// 1-wall
@@ -119,11 +143,21 @@ void MyWindow::OnKeyDown(int key) {
 	case VK_DOWN:
 		if (game_map[cur_position.x + 1][cur_position.y] == 1)
 		{
-			life - 1;
-			SendMessage(*this, WM_SETTEXT, NULL, (LPARAM)TEXT("Life: %d", life));
 			break;
 		}
+		else if (game_map[cur_position.x+1][cur_position.y] == 3)
+		{
+			moves + 1;
+			Relese_Tile(cur_position);
+			New_pos(cur_position.x + 1, cur_position.y);
+			InvalidateRect(*this, NULL, true);
+
+			HWND dialog=CreateDialog(NULL, MAKEINTRESOURCE (IDD_DIALOG1), *this, (DLGPROC) DlgProc);
+			ShowWindow(dialog, 1);
+
+		}
 		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {
+			moves + 1;
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x + 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
@@ -132,10 +166,17 @@ void MyWindow::OnKeyDown(int key) {
 	case VK_UP:
 		if (game_map[cur_position.x - 1][cur_position.y] == 1)
 		{
-			life - 1;
 			break;
 		}
+		else if (game_map[cur_position.x-1][cur_position.y] == 3)
+		{
+			moves + 1;
+			Relese_Tile(cur_position);
+			New_pos(cur_position.x - 1, cur_position.y);
+			InvalidateRect(*this, NULL, true);
+		}
 		else if (game_map[cur_position.x - 1][cur_position.y] == 0) {
+			moves + 1;
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x - 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
@@ -145,11 +186,18 @@ void MyWindow::OnKeyDown(int key) {
 	case VK_RIGHT:
 		if (game_map[cur_position.x][cur_position.y + 1] == 1)
 		{
-			life - 1;
 			break;
+		}
+		else if (game_map[cur_position.x][cur_position.y + 1] == 3)
+		{
+			moves + 1;
+			Relese_Tile(cur_position);
+			New_pos(cur_position.x, cur_position.y+1);
+			InvalidateRect(*this, NULL, true);
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 0)
 		{
+			moves + 1;
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y+1);
 			InvalidateRect(*this, NULL, true);
@@ -158,11 +206,19 @@ void MyWindow::OnKeyDown(int key) {
 
 	case VK_LEFT:
 		if (game_map[cur_position.x][cur_position.y - 1] == 1) {
-			life - 1;
+
 			break;
+		}
+		else if (game_map[cur_position.x][cur_position.y - 1] == 3)
+		{
+			moves + 1;
+			Relese_Tile(cur_position);
+			New_pos(cur_position.x, cur_position.y-1);
+			InvalidateRect(*this, NULL, true);
 		}
 		else if (game_map[cur_position.x][cur_position.y-1]==0)
 		{
+			moves + 1;
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y-1);
 			InvalidateRect(*this, NULL, true);
@@ -175,8 +231,6 @@ void MyWindow::OnKeyDown(int key) {
 
 int MyWindow::OnCreate(CREATESTRUCT* psc)
 {	
-
-	CreateWindow(TEXT("STATIC"), TEXT("Life: "), WS_CHILD | WS_VISIBLE | SS_LEFT, 0, 0, 50, 15, *this, (HMENU)ID_MYSTATIC, NULL, NULL);
 	return 0;
 }
 void MyWindow::OnCommand(int id)
