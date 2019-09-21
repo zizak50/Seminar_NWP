@@ -33,6 +33,10 @@ public:
 
 	int life = 10;
 
+	// 0-path
+	// 1-wall
+	// 2-start/current_postition
+	// 3-end
 	int game_map[5][5] = {
 		{1,2,1,1,1},
 		{1,0,0,0,1},
@@ -164,7 +168,8 @@ void MyWindow::OnKeyDown(int key) {
 			InvalidateRect(*this, NULL, true);
 		}
 		break;
-
+	case VK_ESCAPE:
+		::PostQuitMessage(0);
 	}
 }
 
