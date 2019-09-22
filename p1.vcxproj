@@ -131,10 +131,12 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dlgdef.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nwpwin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dlgdef.h" />
     <ClInclude Include="nwpwin.h" />
     <ClInclude Include="resource1.h" />
   </ItemGroup>

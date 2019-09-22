@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nwpwin.cpp" />
+    <ClCompile Include="Dlgdef.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -40,6 +41,9 @@
       <Filter>Heders</Filter>
     </ClInclude>
     <ClInclude Include="nwpwin.h">
+      <Filter>Heders</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlgdef.h">
       <Filter>Heders</Filter>
     </ClInclude>
   </ItemGroup>

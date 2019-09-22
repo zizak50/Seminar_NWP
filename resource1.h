@@ -2,9 +2,11 @@
 // Microsoft Visual C++ generated include file.
 // Used by Resource.rc
 //
-#define ID_MYSTATIC                     01
-#define ID_QUIT 02
-#define ID_NewGame 03
+#define ID_MY_STATIC                     01 
+#define ID_QUIT							 02
+#define ID_NewGame						 03
+#define IDC_STATIC_RESULT				 05
+#define IDC_STATIC_MOVES				 06
 #define IDS_STRING101                   101
 #define IDS_STRING102                   102
 #define IDS_STRING103                   103

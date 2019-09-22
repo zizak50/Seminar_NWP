@@ -11,6 +11,8 @@
 #include <string>
 #include <sstream>
 #include <tchar.h>
+#include "Dlgdef.h"
+
 typedef std::basic_string<TCHAR> tstring;
 typedef std::basic_stringstream<TCHAR> tstringstream;
 
@@ -18,6 +20,12 @@ class Application
 {
 public:
 	int Run();
+};
+
+class End_Dialog : public Dialog {
+protected:
+	int IDD();
+	bool OnInitDialog();
 };
 
 class Window

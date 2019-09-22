@@ -1,34 +1,11 @@
 ﻿#include "nwpwin.h"
 #include "resource1.h"
 #include <windows.h>
-#include <string.h>
+#include <string>
 #include <iostream>
 
-INT_PTR CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
-{
-	switch (Message)
-	{
-	case WM_INITDIALOG:
-
-		return TRUE;
-		break;
-	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-		case ID_QUIT:
-			EndDialog(hwnd, IDOK);
-			::PostQuitMessage(0);
-			break;
-		case ID_NewGame:
-
-			EndDialog(hwnd, IDCANCEL);
-			break;
-		}
-		break;
-	default:
-		return FALSE;
-	}
-	return TRUE;
+int End_Dialog::IDD() {
+	return IDD_DIALOG1;
 }
 
 class MyWindow : public Window {
@@ -151,10 +128,10 @@ void MyWindow::OnKeyDown(int key) {
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x + 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
-
-			HWND dialog=CreateDialog(NULL, MAKEINTRESOURCE (IDD_DIALOG1), *this, (DLGPROC) DlgProc);
-			ShowWindow(dialog, 1);
-
+			End_Dialog endDia;
+			endDia.DoModal(0, *this);
+			//HWND dialog=CreateDialog(NULL, MAKEINTRESOURCE (IDD_DIALOG1), *this, (DLGPROC) DlgProc,*moves);
+			//ShowWindow(dialog, 1);
 		}
 		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {
 			moves + 1;
