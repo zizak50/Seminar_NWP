@@ -6,11 +6,14 @@ typedef std::basic_string<TCHAR> tstring;
 
 class Dialog
 {
+	int moves;
 	HWND hw;
 public:
 	static int CALLBACK Proc(HWND hw, UINT msg, WPARAM wp, LPARAM lp);
 	operator HWND() const { return hw; }
 	int DoModal(HINSTANCE, HWND parent = 0);
+	void SetMoves(int i) { moves = i; };
+	int GetMoves() { return moves; }
 protected:
 	//	overridables
 	virtual int IDD() = 0;

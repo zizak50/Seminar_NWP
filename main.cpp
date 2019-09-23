@@ -41,7 +41,7 @@ public:
 	int game_map[5][5] = {
 		{1,2,1,1,1},
 		{1,0,0,0,1},
-		{1,0,1,0,1},
+		{1,0,1,0,3},
 		{1,0,0,0,1},
 		{1,1,1,3,1} 
 	};
@@ -128,10 +128,10 @@ void MyWindow::OnKeyDown(int key) {
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x + 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
+
 			End_Dialog endDia;
+			endDia.SetMoves(moves);
 			endDia.DoModal(0, *this);
-			//HWND dialog=CreateDialog(NULL, MAKEINTRESOURCE (IDD_DIALOG1), *this, (DLGPROC) DlgProc,*moves);
-			//ShowWindow(dialog, 1);
 		}
 		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {
 			moves + 1;
@@ -151,6 +151,9 @@ void MyWindow::OnKeyDown(int key) {
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x - 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
+
+			End_Dialog endDia;
+			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x - 1][cur_position.y] == 0) {
 			moves + 1;
@@ -171,6 +174,9 @@ void MyWindow::OnKeyDown(int key) {
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y+1);
 			InvalidateRect(*this, NULL, true);
+
+			End_Dialog endDia;
+			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 0)
 		{
@@ -192,6 +198,9 @@ void MyWindow::OnKeyDown(int key) {
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y-1);
 			InvalidateRect(*this, NULL, true);
+
+			End_Dialog endDia;
+			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x][cur_position.y-1]==0)
 		{

@@ -4,9 +4,8 @@
 
 INT CALLBACK Dialog::Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	//TODO: ocitati broj pokreta
+	//TODO: read number of moves made
 	int i = 0;
-
 	switch (Message)
 	{
 	case WM_INITDIALOG:
