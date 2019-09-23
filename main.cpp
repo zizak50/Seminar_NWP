@@ -41,8 +41,8 @@ public:
 	int game_map[5][5] = {
 		{1,2,1,1,1},
 		{1,0,0,0,1},
-		{1,0,1,0,3},
-		{1,0,0,0,1},
+		{1,0,1,0,0},
+		{1,0,1,0,1},
 		{1,1,1,3,1} 
 	};
 };
@@ -130,7 +130,7 @@ void MyWindow::OnKeyDown(int key) {
 			InvalidateRect(*this, NULL, true);
 
 			End_Dialog endDia;
-			endDia.SetMoves(moves);
+			//SendDlgItemMessage(*this, IDD_DIALOG1, moves, NULL, NULL);
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {

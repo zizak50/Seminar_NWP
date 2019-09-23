@@ -5,23 +5,29 @@
 INT CALLBACK Dialog::Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	//TODO: read number of moves made
-	int i = 0;
+	int i =9;
+
+	char s[128];
+
 	switch (Message)
 	{
 	case WM_INITDIALOG:
 
 		if (i <= 7)
 		{
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT, "PRO");
+			LoadString(0, IDS_STRING107, s, sizeof s);
+			SetDlgItemText(hwnd, IDC_STATIC_RESULT, s);
 
 		}
 		if (i >= 9)
 		{
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT, "AVRAGE");
+			LoadString(0, IDS_STRING106, s, sizeof s);
+			SetDlgItemText(hwnd, IDC_STATIC_RESULT, s);
 		}
-		else
+		if (i>=11)
 		{
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT, "NOOB");
+			LoadString(0, IDS_STRING105, s, sizeof s);
+			SetDlgItemText(hwnd, IDC_STATIC_RESULT,s);
 		}
 		//SetDlgItemText(hwnd, IDC_STATIC_MOVES,"%d"i);
 		return TRUE;
@@ -32,10 +38,6 @@ INT CALLBACK Dialog::Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		case ID_QUIT:
 			EndDialog(hwnd, IDOK);
 			::PostQuitMessage(0);
-			break;
-		case ID_NewGame:
-
-			EndDialog(hwnd, IDCANCEL);
 			break;
 		}
 		break;
