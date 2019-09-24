@@ -200,6 +200,7 @@ void MyWindow::OnKeyDown(int key) {
 			InvalidateRect(*this, NULL, true);
 
 			End_Dialog endDia;
+			endDia.SetMoves(GetMovesMyWindow());
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x - 1][cur_position.y] == 0) {
@@ -223,6 +224,7 @@ void MyWindow::OnKeyDown(int key) {
 			InvalidateRect(*this, NULL, true);
 
 			End_Dialog endDia;
+			endDia.SetMoves(GetMovesMyWindow());
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 0)
@@ -247,6 +249,7 @@ void MyWindow::OnKeyDown(int key) {
 			InvalidateRect(*this, NULL, true);
 
 			End_Dialog endDia;
+			endDia.SetMoves(GetMovesMyWindow());
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x][cur_position.y-1]==0)
