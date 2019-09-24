@@ -10,6 +10,26 @@ class End_Dialog : public Dialog {
 protected:
 	int IDD();
 	bool OnInitDialog(HWND hw);
+	void OnCancel();
+	void SetStringInStatic(int id) {
+		char s[128];
+		switch (id)
+		{
+		case IDS_STRING107:
+			LoadString(0, IDS_STRING107, s, sizeof s);
+			break;
+		case IDS_STRING106:
+			LoadString(0, IDS_STRING106, s, sizeof s);
+			break;
+		case IDS_STRING105:
+			LoadString(0, IDS_STRING105, s, sizeof s);
+			break;
+		default:
+			break;
+		}
+		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
+	}
+
 public:
 	int GetMoves() {
 		return moves;
@@ -26,41 +46,92 @@ int End_Dialog::IDD() {
 bool End_Dialog::OnInitDialog(HWND hw) {
 
 	int i = GetMoves();
-	char s[128];
+
 	std::string moves_s = std::to_string(i);
 	SetDlgItemText(*this, IDC_STATIC_MOVES, moves_s.c_str());
 
 	if (i <= 7)
-	{
-		LoadString(0, IDS_STRING107, s, sizeof s);
-		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
-
-	}
+		SetStringInStatic(IDS_STRING107);
 	if (i >= 8)
-	{
-		LoadString(0, IDS_STRING106, s, sizeof s);
-		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
-	}
+		SetStringInStatic(IDS_STRING106);
 	if (i >= 11)
-	{
-		LoadString(0, IDS_STRING105, s, sizeof s);
-		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
-	}
+		SetStringInStatic(IDS_STRING105);
 	return true;
 }
+
+ void End_Dialog::OnCancel() {
+	 PostQuitMessage(0);
+ }
 
 class MyWindow : public Window {
 
 protected:
 	int OnCreate(CREATESTRUCT* pcs);
-	void OnCommand(int id);
 	void OnPaint(HDC hdc);
 	void OnKeyDown(int vk);
 	void OnDestroy();
 
 	POINT Curren_pos();
+
 	void New_pos(int x, int y);
 	void Relese_Tile(POINT p);
+
+	void PaintSquare(HDC hdc ,HBRUSH brush, int color, int i, int j) {
+
+		RECT r = { i,j,i + 1,j + 1 };
+
+		switch (color)
+		{
+		case 0:
+			brush = CreateSolidBrush(color_path);
+			break;
+		case 1:
+			brush = CreateSolidBrush(color_wall);
+			break;
+		case 2:
+			brush = CreateSolidBrush(color_start);
+			break;
+		case 3:
+			brush = CreateSolidBrush(color_end);
+			break;
+
+		default:
+			break;
+		}
+		FillRect(hdc, &r, brush);
+		DeleteObject(brush);
+	}
+
+	void Move(int key ,POINT cur_position) {
+
+		SetMoves(1);
+		Relese_Tile(cur_position);
+
+		switch (key)
+		{
+		case VK_DOWN:
+			New_pos(cur_position.x + 1, cur_position.y);
+			break;
+		case VK_UP:
+			New_pos(cur_position.x -1, cur_position.y);
+			break;
+		case VK_RIGHT:
+			New_pos(cur_position.x, cur_position.y+1);
+			break;
+		case VK_LEFT:
+			New_pos(cur_position.x, cur_position.y-1);
+			break;
+		default:
+			break;
+		}
+		InvalidateRect(*this, NULL, true);
+	}
+
+	void OnEndPosition() {
+		End_Dialog endDia;
+		endDia.SetMoves(GetMovesMyWindow());
+		endDia.DoModal(0, *this);
+	}
 
 public:
 	int GetMovesMyWindow() {
@@ -130,29 +201,14 @@ void MyWindow::OnPaint(HDC hdc) {
 	for (int i = 0; i < x; i++) {
 		for (int j = 0; j < y; j++)
 		{
-			if (game_map[j][i] == 0) {
-				brush = CreateSolidBrush(color_path);
-				RECT r = { i,j,i + 1,j + 1 };
-				FillRect(hdc, &r, brush);
-			}
-
-			if (game_map[j][i] == 1) {
-				brush= CreateSolidBrush(color_wall);
-				RECT r = { i,j,i + 1,j + 1 };
-				FillRect(hdc, &r, brush);
-			}
-
-			if (game_map[j][i] == 2) {
-				brush = CreateSolidBrush(color_start);
-				RECT r = { i,j,i + 1,j + 1 };
-				FillRect(hdc, &r, brush);
-			}
-
-			if (game_map[j][i] == 3) {
-				brush = CreateSolidBrush(color_end);
-				RECT r = { i,j,i + 1,j + 1 };
-				FillRect(hdc, &r, brush);
-			}
+			if (game_map[j][i] == 0)
+				PaintSquare(hdc, brush, game_map[j][i], i, j);
+			if (game_map[j][i] == 1)
+				PaintSquare(hdc, brush, game_map[j][i], i, j);
+			if (game_map[j][i] == 2) 
+				PaintSquare(hdc, brush, game_map[j][i], i, j);
+			if (game_map[j][i] == 3) 
+				PaintSquare(hdc, brush, game_map[j][i], i, j);
 		}
 	}
 	DeleteObject(brush);
@@ -166,99 +222,49 @@ void MyWindow::OnKeyDown(int key) {
 	{
 	case VK_DOWN:
 		if (game_map[cur_position.x + 1][cur_position.y] == 1)
-		{
 			break;
-		}
 		else if (game_map[cur_position.x+1][cur_position.y] == 3)
 		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x + 1, cur_position.y);
-			InvalidateRect(*this, NULL, true);
-
-			End_Dialog endDia;
-			endDia.SetMoves(GetMovesMyWindow());
-			endDia.DoModal(0, *this);
+			Move(key, cur_position);
+			OnEndPosition();
 		}
-		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x + 1, cur_position.y);
-			InvalidateRect(*this, NULL, true);
-		}
+		else if (game_map[cur_position.x + 1][cur_position.y] == 0)
+			Move(key, cur_position);
 		break;
 	case VK_UP:
 		if (game_map[cur_position.x - 1][cur_position.y] == 1)
-		{
 			break;
-		}
 		else if (game_map[cur_position.x-1][cur_position.y] == 3)
 		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x - 1, cur_position.y);
-			InvalidateRect(*this, NULL, true);
-
-			End_Dialog endDia;
-			endDia.SetMoves(GetMovesMyWindow());
-			endDia.DoModal(0, *this);
+			Move(key, cur_position);
+			OnEndPosition();
 		}
-		else if (game_map[cur_position.x - 1][cur_position.y] == 0) {
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x - 1, cur_position.y);
-			InvalidateRect(*this, NULL, true);
-		}
+		else if (game_map[cur_position.x - 1][cur_position.y] == 0)
+			Move(key, cur_position);
 		break;
 
 	case VK_RIGHT:
 		if (game_map[cur_position.x][cur_position.y + 1] == 1)
-		{
 			break;
-		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 3)
 		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x, cur_position.y+1);
-			InvalidateRect(*this, NULL, true);
-
-			End_Dialog endDia;
-			endDia.SetMoves(GetMovesMyWindow());
-			endDia.DoModal(0, *this);
+			Move(key, cur_position);
+			OnEndPosition();
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 0)
-		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x, cur_position.y+1);
-			InvalidateRect(*this, NULL, true);
-		}
+			Move(key, cur_position);
 		break;
 
 	case VK_LEFT:
-		if (game_map[cur_position.x][cur_position.y - 1] == 1) {
-
+		if (game_map[cur_position.x][cur_position.y - 1] == 1)
 			break;
-		}
 		else if (game_map[cur_position.x][cur_position.y - 1] == 3)
 		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x, cur_position.y-1);
-			InvalidateRect(*this, NULL, true);
-
-			End_Dialog endDia;
-			endDia.SetMoves(GetMovesMyWindow());
-			endDia.DoModal(0, *this);
+			Move(key, cur_position);
+			OnEndPosition();
 		}
 		else if (game_map[cur_position.x][cur_position.y-1]==0)
-		{
-			SetMoves(1);
-			Relese_Tile(cur_position);
-			New_pos(cur_position.x, cur_position.y-1);
-			InvalidateRect(*this, NULL, true);
-		}
+			Move(key, cur_position);
 		break;
 	case VK_ESCAPE:
 		::PostQuitMessage(0);
@@ -268,10 +274,6 @@ void MyWindow::OnKeyDown(int key) {
 int MyWindow::OnCreate(CREATESTRUCT* psc)
 {	
 	return 0;
-}
-void MyWindow::OnCommand(int id)
-{
-	
 }
 
 void MyWindow::OnDestroy()

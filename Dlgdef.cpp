@@ -18,10 +18,10 @@ INT CALLBACK Dialog::Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 	Dialog* pThis = wmap[hwnd];
 	if (Message == WM_COMMAND)
 	{
-		if (LOWORD(wParam) == IDCANCEL)
+		if (LOWORD(wParam) == ID_QUIT)
 		{
 			pThis->OnCancel();
-			return EndDialog(hwnd, IDCANCEL);
+			return EndDialog(hwnd, ID_QUIT);
 		}
 		return pThis->OnCommand(LOWORD(wParam), HIWORD(wParam));
 	}
