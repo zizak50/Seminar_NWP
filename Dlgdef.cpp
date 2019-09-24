@@ -1,48 +1,33 @@
 #include <windows.h>
 #include "Dlgdef.h"
 #include "resource1.h"
+#include <map>
+
+
 
 INT CALLBACK Dialog::Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	//TODO: read number of moves made
-	int i =9;
-
-	char s[128];
-
-	switch (Message)
+	static std::map<HWND, Dialog*> wmap;
+	if (Message == WM_INITDIALOG)
 	{
-	case WM_INITDIALOG:
-
-		if (i <= 7)
-		{
-			LoadString(0, IDS_STRING107, s, sizeof s);
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT, s);
-
-		}
-		if (i >= 9)
-		{
-			LoadString(0, IDS_STRING106, s, sizeof s);
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT, s);
-		}
-		if (i>=11)
-		{
-			LoadString(0, IDS_STRING105, s, sizeof s);
-			SetDlgItemText(hwnd, IDC_STATIC_RESULT,s);
-		}
-		//SetDlgItemText(hwnd, IDC_STATIC_MOVES,"%d"i);
-		return TRUE;
-		break;
-	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-		case ID_QUIT:
-			EndDialog(hwnd, IDOK);
-			::PostQuitMessage(0);
-			break;
-		}
-		break;
+		Dialog* pThis = reinterpret_cast<Dialog*>(lParam);
+		pThis->hw = hwnd;
+		wmap[hwnd] = pThis;
+		return pThis->OnInitDialog(hwnd);
 	}
-	return FALSE;
+	Dialog* pThis = wmap[hwnd];
+	if (Message == WM_COMMAND)
+	{
+		if (LOWORD(wParam) == IDCANCEL)
+		{
+			pThis->OnCancel();
+			return EndDialog(hwnd, IDCANCEL);
+		}
+		return pThis->OnCommand(LOWORD(wParam), HIWORD(wParam));
+	}
+	if (Message == WM_DESTROY)
+		wmap.erase(hwnd);
+	return 0;
 }
 
 int Dialog::DoModal(HINSTANCE hInst, HWND parent)

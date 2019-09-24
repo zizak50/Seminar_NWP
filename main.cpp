@@ -1,11 +1,52 @@
 ﻿#include "nwpwin.h"
+#include "Dlgdef.h"
 #include "resource1.h"
 #include <windows.h>
 #include <string>
 #include <iostream>
 
+class End_Dialog : public Dialog {
+	int moves = 0;
+protected:
+	int IDD();
+	bool OnInitDialog(HWND hw);
+public:
+	int GetMoves() {
+		return moves;
+	}
+	void SetMoves(int i) {
+		moves = i;
+	}
+};
+
 int End_Dialog::IDD() {
 	return IDD_DIALOG1;
+}
+
+bool End_Dialog::OnInitDialog(HWND hw) {
+
+	int i = GetMoves();
+	char s[128];
+	std::string moves_s = std::to_string(i);
+	SetDlgItemText(*this, IDC_STATIC_MOVES, moves_s.c_str());
+
+	if (i <= 7)
+	{
+		LoadString(0, IDS_STRING107, s, sizeof s);
+		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
+
+	}
+	if (i >= 8)
+	{
+		LoadString(0, IDS_STRING106, s, sizeof s);
+		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
+	}
+	if (i >= 11)
+	{
+		LoadString(0, IDS_STRING105, s, sizeof s);
+		SetDlgItemText(*this, IDC_STATIC_RESULT, s);
+	}
+	return true;
 }
 
 class MyWindow : public Window {
@@ -18,10 +59,16 @@ protected:
 	void OnDestroy();
 
 	POINT Curren_pos();
-	void New_pos(int x,int y);
+	void New_pos(int x, int y);
 	void Relese_Tile(POINT p);
 
 public:
+	int GetMovesMyWindow() {
+		return moves;
+	};
+	void SetMoves(int i) {
+		moves = moves+i;
+	}
 	COLORREF color_wall = RGB(0, 0, 0);
 	COLORREF color_path = RGB(0, 255, 0);
 	COLORREF color_start = RGB(255, 0, 0);
@@ -124,17 +171,17 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x+1][cur_position.y] == 3)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x + 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
 
 			End_Dialog endDia;
-			//SendDlgItemMessage(*this, IDD_DIALOG1, moves, NULL, NULL);
+			endDia.SetMoves(GetMovesMyWindow());
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x + 1][cur_position.y] == 0) {
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x + 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
@@ -147,7 +194,7 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x-1][cur_position.y] == 3)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x - 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
@@ -156,7 +203,7 @@ void MyWindow::OnKeyDown(int key) {
 			endDia.DoModal(0, *this);
 		}
 		else if (game_map[cur_position.x - 1][cur_position.y] == 0) {
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x - 1, cur_position.y);
 			InvalidateRect(*this, NULL, true);
@@ -170,7 +217,7 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 3)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y+1);
 			InvalidateRect(*this, NULL, true);
@@ -180,7 +227,7 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x][cur_position.y + 1] == 0)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y+1);
 			InvalidateRect(*this, NULL, true);
@@ -194,7 +241,7 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x][cur_position.y - 1] == 3)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y-1);
 			InvalidateRect(*this, NULL, true);
@@ -204,7 +251,7 @@ void MyWindow::OnKeyDown(int key) {
 		}
 		else if (game_map[cur_position.x][cur_position.y-1]==0)
 		{
-			moves + 1;
+			SetMoves(1);
 			Relese_Tile(cur_position);
 			New_pos(cur_position.x, cur_position.y-1);
 			InvalidateRect(*this, NULL, true);

@@ -22,12 +22,6 @@ public:
 	int Run();
 };
 
-class End_Dialog : public Dialog {
-protected:
-	int IDD();
-	bool OnInitDialog();
-};
-
 class Window
 {
 	HWND hw;
